@@ -12837,10 +12837,10 @@ async function run() {
   try {
     switch(event){
       case 'new_pull_request':
-        await post();
+        await new_pull_request();
         break;
       default:
-        await post();
+        await new_pull_request();
         break;
     }
   }
