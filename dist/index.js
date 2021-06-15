@@ -12818,7 +12818,10 @@ const new_pull_request = async () => {
   const strRegExPattern = `/${project}-\d{1,4}/`; 
   baseUrl = baseUrl[baseUrl.lenght - 1] === '/' ? baseUrl : baseUrl + '/';
 
-  const jiraTickets = payload.pull_request.title.match(new RegExp(strRegExPattern,'g'))?.map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`)?.join('\n') || ''
+  const regexMatches = payload.pull_request.title.match(new RegExp(strRegExPattern,'g'))
+  const mappedMatches = regexMatches && regexMatches.map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`)
+  const jiraTickets = mappedMatches && mappedMatches.join('\n')
+  // const jiraTickets = (payload.pull_request.title.match(new RegExp(strRegExPattern,'g')) || []).map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`).join('\n') || ''
 
   
   const messages = `Amazing job done by *_${payload.sender.login}_* ! :tada:\n` + 
