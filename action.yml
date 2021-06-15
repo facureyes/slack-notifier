@@ -1,0 +1,22 @@
+name: 'slack-notifier'
+description: 'Posts PR notifications to slack liking it with project in Jira.'
+inputs:
+  event:
+    description: 'Event that triggers this action'
+    required: true
+    default: 'new_pull_request'
+  slack-bot-token:
+    description: 'API token to post messages to slack'
+    required: true
+  channel-id:
+    description: 'Channel that manages PR notifications'
+    required: true
+  jira-base-url:
+    description: "E.g.: https://example.atlassian.net/"
+    required: true
+  jira-project-acronym:
+    description: "The acronym of your project in Jira"
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
