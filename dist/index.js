@@ -12811,22 +12811,19 @@ const new_pull_request = async () => {
   const {payload} = github.context
   const channelId = core.getInput('channel-id');
   const botToken = core.getInput('slack-bot-token');
-  const project = core.getInput('jira-proyect-acronym');
+  const project = core.getInput('jira-project-acronym');
   let baseUrl = core.getInput('jira-base-url');
-
-  // const strRegExPattern = '\\b'+`${project}-\d{1,4}`+'\\b'; 
-  const strRegExPattern = `/${project}-\d{1,4}/`; 
   baseUrl = baseUrl[baseUrl.lenght - 1] === '/' ? baseUrl : baseUrl + '/';
 
-  const regexMatches = payload.pull_request.title.match(new RegExp(strRegExPattern,'g'))
-  const mappedMatches = regexMatches && regexMatches.map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`)
-  const jiraTickets = mappedMatches && mappedMatches.join('\n')
-  // const jiraTickets = (payload.pull_request.title.match(new RegExp(strRegExPattern,'g')) || []).map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`).join('\n') || ''
+  const jiraTickets = (payload.pull_request.title.match(new RegExp(`${project}-\\d{1,4}`,'g')) || []).map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`).join('\n')
 
-  
   const messages = `Amazing job done by *_${payload.sender.login}_* ! :tada:\n` + 
-  `• Created new <${payload.pull_request.html_url}|PR> on <${payload.repository.html_url}|${payload.repository.full_name}> \n` +
-  jiraTickets
+  `• Created new <${payload.pull_request.html_url}|PR> on <${payload.repository.html_url}|${payload.repository.full_name}> \n ${jiraTickets  || ''}`
+  
+  console.log("BaseURL", baseUrl)
+  console.log("Acronym", project)
+  console.log("Jira Tickets ",jiraTickets)
+  console.log("Messages ",messages)
 
   const client = new WebClient(botToken);
   await client.chat.postMessage({ channel: channelId, text: messages })
