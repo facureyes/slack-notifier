@@ -9,8 +9,8 @@ const new_pull_request = async () => {
   const botToken = core.getInput('slack-bot-token');
   const project = core.getInput('jira-project-acronym');
   let baseUrl = core.getInput('jira-base-url');
-  
-  baseUrl = baseUrl[baseUrl.lenght - 1] === '/' ? baseUrl : baseUrl + '/';
+
+  baseUrl = baseUrl[baseUrl.length - 1] === '/' ? baseUrl : baseUrl + '/';
 
   const jiraTickets = (payload.pull_request.title.match(new RegExp(`${project}-\\d{1,4}`,'g')) || []).map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`).join('\n')
   const messages = `Amazing job done by *_${payload.sender.login}_* ! :tada:\n` + 
