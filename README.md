@@ -7,10 +7,8 @@
 
 You can use this action after any other action. Here is an example setup of this action:
 
-1. Create a `.github/workflows/hd-slack-notifier.yml` file in your GitHub repo.
-2. Add the following code to the `hd-slack-notifier.yml` file. 
-
-<!-- Note that the message is javascript code that get executed and provided the `payload` variable which is [provided by github](https://developer.github.com/webhooks/event-payloads/) -->
+1. Create a `.github/workflows/slack-notifier.yml` file in your GitHub repo.
+2. Add the following code to the `slack-notifier.yml` file. 
 
 ```yml
 name: Slack Notifier
@@ -39,7 +37,7 @@ By default, action is designed to run with minimal configuration but you can alt
 
 Variable  | Default | Purpose
 ----|----|----
-event | - | The event define message template to be used. Currently support `new_pull_request`.
+event | `new_pull_request` | The event define message template to be used. Currently support `new_pull_request`.
 jira-base-url | - | Jira's base url of your organisation.
 jira-project  | - | Jira's project acronym.
 slack-bot-token | - | Slack bot authentication token
