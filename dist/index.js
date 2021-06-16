@@ -12813,17 +12813,12 @@ const new_pull_request = async () => {
   const botToken = core.getInput('slack-bot-token');
   const project = core.getInput('jira-project-acronym');
   let baseUrl = core.getInput('jira-base-url');
+  
   baseUrl = baseUrl[baseUrl.lenght - 1] === '/' ? baseUrl : baseUrl + '/';
 
   const jiraTickets = (payload.pull_request.title.match(new RegExp(`${project}-\\d{1,4}`,'g')) || []).map((occur) => `• For <${baseUrl}browse/${occur}|${occur}>`).join('\n')
-
   const messages = `Amazing job done by *_${payload.sender.login}_* ! :tada:\n` + 
   `• Created new <${payload.pull_request.html_url}|PR> on <${payload.repository.html_url}|${payload.repository.full_name}> \n ${jiraTickets  || ''}`
-  
-  console.log("BaseURL", baseUrl)
-  console.log("Acronym", project)
-  console.log("Jira Tickets ",jiraTickets)
-  console.log("Messages ",messages)
 
   const client = new WebClient(botToken);
   await client.chat.postMessage({ channel: channelId, text: messages })
